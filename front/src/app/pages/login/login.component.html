@@ -1,0 +1,60 @@
+<div>
+  <button mat-icon-button routerLink="/">
+    <mat-icon class="icon">arrow_back</mat-icon>
+  </button>
+</div>
+<div class="center">
+  <h1>Se connecter</h1>
+  <form class="centerFlexCol" [formGroup]="form">
+    <div class="centerFlexCol">
+      <mat-form-field
+        fxFlex
+        appearance="outline"
+        style="width: 300px !important"
+        floatLabel="always"
+      >
+        <mat-label>Adresse e-mail</mat-label>
+        <input
+          type="email"
+          name="email"
+          matInput
+          formControlName="email"
+          placeholder=""
+        />
+      </mat-form-field>
+      <mat-form-field
+        fxFlex
+        appearance="outline"
+        style="width: 300px !important"
+        floatLabel="always"
+      >
+        <mat-label>Mot de passe</mat-label>
+        <input
+          type="password"
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        (click)="submit()"
+      >
+        Se connecter
+      </button>
+      <span *ngIf="onError" class="error">An error occurred</span>
+    </div>
+  </form>
+</div>

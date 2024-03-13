@@ -19,12 +19,9 @@ CREATE TABLE `topics` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
-  `subscriber_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `subscriber_id` (`subscriber_id`),
-  CONSTRAINT `topics_ibfk_1` FOREIGN KEY (`subscriber_id`) REFERENCES `users` (`id`)
+  PRIMARY KEY (`id`)
 );
 
 DROP TABLE IF EXISTS `posts`
@@ -41,4 +38,25 @@ CREATE TABLE `posts` (
   KEY `topic_id` (`topic_id`),
   CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`)
+);
+
+
+CREATE TABLE `comments` (
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `message` VARCHAR(2000),
+  `post_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `created_at`  timestamp NULL DEFAULT NULL,
+  `updated_at`  timestamp NULL DEFAULT NULL,
+  KEY `user_id` (`user_id`),
+  KEY `post_id` (`post_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`)
+);
+
+CREATE TABLE `subscribtions` (
+  `user_id` INT DEFAULT NULL,
+  `topic_id` INT DEFAULT NULL,
+  CONSTRAINT `subscribtions_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `subscribtions_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`)
 );

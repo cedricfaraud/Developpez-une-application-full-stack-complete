@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.controllers;
 
 import java.util.NoSuchElementException;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private PasswordEncoder bcryptEncoder;
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * User login
@@ -76,7 +79,7 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (NoSuchElementException e) {
             userDto.setPassword(bcryptEncoder.encode(userDto.getPassword()));
-            User createdUser = userService.saveUser(userDto.userDtoToUser());
+            User createdUser = userService.saveUser(dtoToEntity(userDto));
             logger.trace("createdUser : " + createdUser);
             String token = null;
             if (createdUser != null) {
@@ -84,6 +87,51 @@ public class LoginController {
             }
             return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponse(token));
         }
+    }
+
+    /**
+     * Create user
+     * 
+     * @param userDto
+     * @return token
+     */
+    @PostMapping(value = "api/auth/update", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Update", description = "Update user with email, username and password, return JWT")
+    public ResponseEntity<LoginResponse> updateUser(@RequestBody UserDto userDto) {
+        logger.trace("Update user : " + userDto);
+        String token = null;
+        try {
+            if (isNotNullOrEmpty(userDto.getPassword()) || isNotNullOrEmpty(userDto.getEmail())
+                    || isNotNullOrEmpty(userDto.getName())) {
+                User user = getUser();
+                if (isNotNullOrEmpty(userDto.getPassword())) {
+                    user.setPassword(bcryptEncoder.encode(userDto.getPassword()));
+                }
+                if (isNotNullOrEmpty(userDto.getEmail())) {
+                    user.setEmail(userDto.getEmail());
+                }
+                if (isNotNullOrEmpty(userDto.getName())) {
+                    user.setName(userDto.getName());
+                }
+                User updatedUser = userService.saveUser(user);
+                if (updatedUser != null) {
+
+                    logger.trace("updatedUser : " + updatedUser);
+                    token = jwtService.generateToken(updatedUser.getEmail());
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse(token));
+            } else {
+                logger.error("update user error : " + userDto);
+                return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+            }
+        } catch (NoSuchElementException e) {
+            logger.error("update user error : " + userDto);
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+        }
+    }
+
+    private boolean isNotNullOrEmpty(String stringToControl) {
+        return null != stringToControl && !stringToControl.isEmpty();
     }
 
     /**
@@ -96,10 +144,7 @@ public class LoginController {
     @Operation(summary = "Me", description = "Get information about connected user")
     public ResponseEntity<User> getCurrentUser() {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String email = authentication.getName();
-            logger.trace("Me opération, email : " + email);
-            User user = userService.getUserByEmail(email);
+            User user = getUser();
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
@@ -114,12 +159,24 @@ public class LoginController {
      */
     @GetMapping(value = "api/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get user by id", description = "Retrieve account information about user specified by his id")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
         try {
             User user = userService.getUser(id);
             return new ResponseEntity<User>(user, HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    private User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        logger.trace("Me opération, email : " + email);
+        User user = userService.getUserByEmail(email);
+        return user;
+    }
+
+    private User dtoToEntity(UserDto userDto) {
+        return modelMapper.map(userDto, User.class);
     }
 }

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,7 +29,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
-    public User getUser(final Long id) {
+    public User getUser(final Integer id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Bad id : " + id));
     }
@@ -50,12 +49,11 @@ public class UserService implements UserDetailsService {
         return userByEmail;
     }
 
-    public void deleteUser(final Long id) {
+    public void deleteUser(final Integer id) {
         userRepository.deleteById(id);
     }
 
     public User saveUser(User user) {
-
         User savedUser = userRepository.save(user);
         return savedUser;
     }
@@ -69,7 +67,8 @@ public class UserService implements UserDetailsService {
 
     private List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        // authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         return authorities;
     }
+
 }

@@ -37,7 +37,8 @@ export class ProfileComponent implements OnInit {
   hide = true;
 
   public submit(): void {
-    const registerRequest = this.form.value as UpdateRequest;
+    let registerRequest = this.form.value as UpdateRequest;
+
     this.authService.update(registerRequest).subscribe(
       (response: AuthSuccess) => {
         localStorage.setItem('token', response.token);

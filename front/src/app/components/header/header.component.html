@@ -1,0 +1,60 @@
+<div class="mat-toolbar-container">
+  <mat-toolbar
+    style="
+      background-color: white;
+      border-bottom: 1px solid;
+      margin-bottom: 10px;
+    "
+  >
+    <img src="/assets/logo_p6.png" alt="logo" class="logo" />
+    <span class="spacer"></span>
+    <div *ngIf="isLogged$ | async">
+      <span
+        (click)="navToPost()"
+        class="link"
+        [ngClass]="{ active: page.startsWith('/post') }"
+        >Articles</span
+      >
+      <span
+        (click)="navToTopic()"
+        class="link"
+        [ngClass]="{ active: page === '/topics' }"
+        >Thèmes</span
+      >
+      <span
+        (click)="navToProfile()"
+        class="link"
+        [ngClass]="{ active: page === '/profile' }"
+      >
+        <mat-icon class="icon">account_circle</mat-icon>
+      </span>
+    </div>
+  </mat-toolbar>
+</div>
+<div class="mat-menu-container">
+  <img src="/assets/logo_p6.png" alt="logo" class="logo" />
+
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon class="icon">menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <a mat-list-item (click)="navToPost()">
+        <mat-icon class="nav-icon">insert_comment</mat-icon>
+        <span class="nav-caption">Articles</span>
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a mat-list-item (click)="navToTopic()">
+        <mat-icon class="nav-icon">text_fields</mat-icon>
+        <span class="nav-caption">Thèmes</span>
+      </a>
+    </button>
+    <button mat-menu-item>
+      <a mat-list-item (click)="navToProfile()">
+        <mat-icon class="nav-icon">account_circle</mat-icon>
+        <span class="nav-caption">Profil</span>
+      </a>
+    </button>
+  </mat-menu>
+</div>

@@ -3,7 +3,6 @@ package com.openclassrooms.mddapi.model;
 import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,7 +29,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String message;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id")
@@ -43,8 +42,4 @@ public class Comment {
     @JsonProperty(value = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
-
-    @JsonProperty(value = "updated_at")
-    @UpdateTimestamp
-    private Timestamp updatedAt;
 }

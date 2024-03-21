@@ -1,7 +1,5 @@
 package com.openclassrooms.mddapi.controllers.dto;
 
-import java.util.List;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -16,5 +14,5 @@ public class TopicDto {
     @NotNull
     private String description;
 
-    private List<PostDto> posts;
+    // private List<PostDto> posts;
 }

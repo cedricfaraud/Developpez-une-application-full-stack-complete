@@ -48,11 +48,6 @@ public class User {
     @NonNull
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "subscribtions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
-    @JsonIgnore
-    private List<Topic> topics = new ArrayList<>();
-
     @JsonProperty(value = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
@@ -61,4 +56,8 @@ public class User {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "subscribtions", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "topic_id"))
+    @JsonIgnore
+    private List<Topic> topics = new ArrayList<>();
 }

@@ -84,7 +84,7 @@ public class UserController {
     public ResponseEntity<TopicsResponse> unsubscribe(@PathVariable("id") Integer topic_id) {
         try {
             this.userService.unsubscribeTopic(topic_id);
-            List<TopicDto> topics = topicService.getAllTopics(); // ToDo changer pour DTO
+            List<TopicDto> topics = topicService.getAllTopics();
             return ResponseEntity.ok(new TopicsResponse(topics));
 
         } catch (BadRequestException e) {
@@ -99,11 +99,13 @@ public class UserController {
      */
     @GetMapping("/subscription")
     @Operation(summary = "Get all user's topics", description = "Retrieve topics subscribed by authenticated user")
-    public ResponseEntity<TopicsResponse> getUserSubscription() {
+    // public ResponseEntity<TopicsResponse> getUserSubscription() {
+    public ResponseEntity<List<TopicDto>> getUserSubscription() {
 
         List<TopicDto> topics = userService.getUserSubscription();
 
-        return ResponseEntity.ok(new TopicsResponse(topics));
+        // return ResponseEntity.ok(new TopicsResponse(topics));
+        return ResponseEntity.ok(topics);
     }
 
 }

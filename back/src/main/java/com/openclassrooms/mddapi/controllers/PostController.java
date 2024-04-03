@@ -21,14 +21,9 @@ import com.openclassrooms.mddapi.controllers.responses.CommentsResponse;
 import com.openclassrooms.mddapi.controllers.responses.PostResponse;
 import com.openclassrooms.mddapi.controllers.responses.PostsResponse;
 import com.openclassrooms.mddapi.controllers.responses.ResponseMessage;
-import com.openclassrooms.mddapi.model.Comment;
 import com.openclassrooms.mddapi.services.PostService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -122,9 +117,7 @@ public class PostController {
      * @return
      */
     @PostMapping("/{id}/comment")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Comment.class))),
-            @ApiResponse(responseCode = "401", description = "unauthorized", content = @Content) })
+    @Operation(summary = "Add comment", description = "Create new comment for a post")
     public ResponseEntity<CommentDto> addPostComment(@PathVariable("id") Integer id,
             @RequestBody CommentRequest commentRequest) {
 

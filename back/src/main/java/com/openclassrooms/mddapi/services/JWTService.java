@@ -27,7 +27,7 @@ public class JWTService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(1, ChronoUnit.DAYS))
+                .expiresAt(now.plus(7, ChronoUnit.DAYS))
                 .subject(email)
                 .build();
         JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters

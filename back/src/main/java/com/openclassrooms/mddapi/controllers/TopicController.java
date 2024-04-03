@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.controllers.dto.TopicDto;
-import com.openclassrooms.mddapi.controllers.responses.TopicsResponse;
 import com.openclassrooms.mddapi.services.TopicService;
 import com.openclassrooms.mddapi.services.UserService;
 
@@ -41,10 +40,10 @@ public class TopicController {
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get list of topics", description = "Retrieve information of all topics")
-    public ResponseEntity<TopicsResponse> getTopics() {
+    public ResponseEntity<List<TopicDto>> getTopics() {
 
         List<TopicDto> topics = topicService.getAllTopics();
-        return ResponseEntity.ok(new TopicsResponse(topics));
+        return ResponseEntity.ok(topics);
     }
 
     /**

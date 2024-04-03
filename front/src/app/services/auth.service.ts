@@ -22,7 +22,7 @@ export class AuthService {
     );
   }
   public update(updateRequest: UpdateRequest): Observable<AuthSuccess> {
-    return this.httpClient.post<AuthSuccess>(
+    return this.httpClient.put<AuthSuccess>(
       `${this.pathService}/update`,
       updateRequest
     );

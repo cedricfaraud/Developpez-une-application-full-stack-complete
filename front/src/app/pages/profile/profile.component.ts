@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthSuccess } from 'src/app/interfaces/authSuccess.interface';
 import { UpdateRequest } from 'src/app/interfaces/updateRequest.interface';
@@ -17,15 +18,29 @@ export class ProfileComponent implements OnInit {
   public onError = false;
 
   public form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    name: ['', [Validators.required, Validators.min(3)]],
-    password: ['', [Validators.required, Validators.min(3)]],
+    email: [
+      '',
+      [
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ],
+    ],
+    name: ['', [Validators.min(3)]],
+    password: [
+      '',
+      [
+        Validators.pattern(
+          '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.-_*])([a-zA-Z0-9@#$%^&+=*.-_]){8,}$'
+        ), // only with a number, a lowercase, a uppercase, a special character and 8 size
+      ],
+    ],
   });
   constructor(
     private router: Router,
     private authService: AuthService,
     private fb: FormBuilder,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private matSnackBar: MatSnackBar
   ) {}
   ngOnInit(): void {
     this.authService.me().subscribe((user: User) => (this.user = user));
@@ -45,6 +60,9 @@ export class ProfileComponent implements OnInit {
         this.authService.me().subscribe((user: User) => {
           this.sessionService.logIn(user);
           this.router.navigate(['profile']);
+          this.matSnackBar.open('Informations mise à jour!', 'Close', {
+            duration: 3000,
+          });
         });
       },
       (error) => (this.onError = true)

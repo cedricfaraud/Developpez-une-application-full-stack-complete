@@ -14,6 +14,19 @@ a {
   color: white;
   text-decoration: none;
 }
+@media screen and (max-width: 580px) {
+  img {
+    width: 50%;
+    height: 50%;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  img {
+    width: 75%;
+    height: 75%;
+  }
+}
 @media (max-width: 768px) {
   .center {
     flex-direction: column;

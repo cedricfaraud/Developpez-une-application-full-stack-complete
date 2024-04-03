@@ -44,6 +44,7 @@
         <button
           mat-icon-button
           matSuffix
+          type="button"
           (click)="hide = !hide"
           [attr.aria-label]="'Hide password'"
           [attr.aria-pressed]="hide"
@@ -56,6 +57,7 @@
         mat-raised-button
         color="primary"
         type="submit"
+        [disabled]="form.invalid"
         (click)="submit()"
       >
         S'inscrire

@@ -17,9 +17,24 @@ export class RegisterComponent {
   public onError = false;
 
   public form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ],
+    ],
     name: ['', [Validators.required, Validators.min(3)]],
-    password: ['', [Validators.required, Validators.min(3)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(
+          '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.-_*])([a-zA-Z0-9@#$%^&+=*.-_]){8,}$'
+        ), // only with a number, a lowercase, a uppercase, a special character and 8 size
+      ],
+    ],
   });
 
   constructor(

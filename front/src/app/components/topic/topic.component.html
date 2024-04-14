@@ -4,11 +4,11 @@
       {{ topic.title | titlecase }}
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    {{ topic.description | titlecase }}
+  <mat-card-content class="topic-content">
+    <div>{{ topic.description | titlecase }}</div>
   </mat-card-content>
   <mat-card-footer>
-    <div style="text-align: center">
+    <div class="topic-button" style="text-align: center">
       <button
         *ngIf="!fromProfilePage"
         mat-raised-button

@@ -1,0 +1,61 @@
+<mat-card class="post-card" *ngIf="post">
+  <mat-card-header>
+    <div>
+      <button mat-icon-button routerLink="/posts">
+        <mat-icon class="icon">arrow_back</mat-icon>
+      </button>
+    </div>
+    <div class="post-title">
+      <mat-card-title>
+        {{ post.title | titlecase }}
+      </mat-card-title>
+    </div>
+  </mat-card-header>
+  <mat-card-subtitle class="detail-post-subtitle">
+    <div class="inline-subtitle">
+      <b>{{ post.createdAt | date : "dd/MM/yyyy" }}</b>
+    </div>
+    <div class="inline-subtitle">
+      <b>{{ post.user.name | titlecase }}</b>
+    </div>
+    <div class="inline-subtitle">
+      <b>{{ post.topic.title | titlecase }}</b>
+    </div>
+  </mat-card-subtitle>
+  <mat-card-content>
+    <br />
+    <p>Contenu: {{ post.content }}</p>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-footer>
+    <div>
+      <h2>Commentaires</h2>
+
+      <div *ngFor="let comment of post.comments">
+        <div>{{ comment.userName | titlecase }}</div>
+        <div>
+          <div>
+            {{ comment.content }}
+          </div>
+          <div>
+            <mat-divider></mat-divider>
+          </div>
+        </div>
+      </div>
+      <form class="form-container" [formGroup]="addCommentForm">
+        <mat-form-field appearance="outline">
+          <textarea matInput rows="8" placeholder="" formControlName="content">
+          </textarea>
+        </mat-form-field>
+        <button
+          mat-icon-button
+          class="send-icon"
+          type="submit"
+          (click)="onSubmitComment()"
+        >
+          <mat-icon class="icon">send</mat-icon>
+        </button>
+      </form>
+    </div>
+  </mat-card-footer>
+</mat-card>

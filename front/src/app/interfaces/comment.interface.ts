@@ -1,8 +1,6 @@
-import { User } from './user.interface';
-
 export interface PostComment {
   id: string;
-  date: Date;
+  createdDate: Date;
   content: string;
-  user: User;
+  userName: string;
 }

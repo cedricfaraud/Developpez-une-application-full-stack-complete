@@ -1,0 +1,27 @@
+.post-card {
+  background-color: rgb(245, 245, 245);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: auto;
+  width: 30rem;
+  height: 11rem;
+}
+.post-subtitle {
+  //display: flex;
+  flex: 1;
+  //height: 300px;
+  display: flex;
+  flex-direction: line;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.post-subtitle > * {
+  flex: 1 1 80px;
+}
+
+@media (max-width: 768px) {
+  .post-card {
+    margin: 0;
+    width: 100%;
+  }
+}

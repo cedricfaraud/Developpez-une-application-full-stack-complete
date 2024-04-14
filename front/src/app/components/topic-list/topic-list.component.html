@@ -1,17 +1,12 @@
 <div class="topic-items">
-  <mat-grid-list rowHeight="220px" cols="2" [gutterSize]="'10px'">
-    <mat-grid-tile
-      class="mat-elevation-z4"
-      *ngFor="let topic of topics$ | async"
-    >
-      <app-topic
-        [topic]="topic"
-        [fromProfilePage]="fromProfilePage"
-        (unsubscribeTopic)="onUnsubscribeTopic($event)"
-        (subscribeTopic)="onSubscribeTopic($event)"
-      ></app-topic>
-    </mat-grid-tile>
-  </mat-grid-list>
+  <ng-container class="topics-list" *ngFor="let topic of topics$ | async">
+    <app-topic
+      [topic]="topic"
+      [fromProfilePage]="fromProfilePage"
+      (unsubscribeTopic)="onUnsubscribeTopic($event)"
+      (subscribeTopic)="onSubscribeTopic($event)"
+    ></app-topic>
+  </ng-container>
 </div>
 <div *ngIf="(topics$ | async)?.length === 0">
   <p>Vous n'êtes abonné à aucun Thème.</p>

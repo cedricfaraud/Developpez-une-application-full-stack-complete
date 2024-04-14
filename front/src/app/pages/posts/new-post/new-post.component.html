@@ -1,0 +1,54 @@
+<div>
+  <button mat-icon-button routerLink="/posts">
+    <mat-icon class="icon">arrow_back</mat-icon>
+  </button>
+</div>
+<div class="center">
+  <h1>Créer un nouvel article</h1>
+
+  <form class="centerFlexCol" [formGroup]="form">
+    <div class="centerFlexCol">
+      <mat-form-field appearance="outline" style="width: 300px !important">
+        <mat-label>Sélectionner un thème</mat-label>
+        <mat-select formControlName="topicId">
+          <mat-option *ngFor="let topic of topics$ | async" [value]="topic.id"
+            >{{ topic.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        fxFlex
+        appearance="outline"
+        style="width: 300px !important"
+      >
+        <mat-label>Titre</mat-label>
+        <input type="title" name="title" matInput formControlName="title" />
+      </mat-form-field>
+      <mat-form-field
+        fxFlex
+        appearance="outline"
+        style="width: 300px !important"
+      >
+        <mat-label>Contenu de l'article</mat-label>
+        <textarea
+          matInput
+          rows="8"
+          type="content"
+          name="content"
+          formControlName="content"
+        ></textarea>
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+        (click)="submit()"
+      >
+        Enregistrer
+      </button>
+      <span *ngIf="onError" class="error">Une erreur est arrivée</span>
+    </div>
+  </form>
+</div>

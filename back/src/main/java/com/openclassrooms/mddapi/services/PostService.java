@@ -63,7 +63,7 @@ public class PostService {
      * @param id
      * @return post with the specified ID
      */
-    public PostResponse getPostById(Integer id) {
+    public PostDto getPostById(Integer id) {
         Post post = postRepository.findById(id).get();
         PostResponse response = new PostResponse();
         response.setId(post.getId());
@@ -72,7 +72,8 @@ public class PostService {
         response.setUser(post.getUser());
         response.setTopic(post.getTopic());
         response.setCreatedDate(post.getCreatedAt());
-        return response;
+        // return response;
+        return postEntityToDto(post);
     }
 
     /**
@@ -100,7 +101,7 @@ public class PostService {
         Comment newComment = new Comment();
         newComment.setContent(content);
         newComment.setUser(userService.getUser());
-        newComment.setPost(postRepository.findById(id).get());
+        newComment.setPost(postDtoToEntity(getPostById(id)));
 
         return commentEntityToDto(commentRepository.save(newComment));
     }
@@ -143,6 +144,11 @@ public class PostService {
     }
 
     private CommentDto commentEntityToDto(Comment comment) {
-        return modelMapper.map(comment, CommentDto.class);
+        CommentDto commentDto = new CommentDto();
+        commentDto.setContent(comment.getContent());
+        commentDto.setId(comment.getId());
+        commentDto.setUserName(comment.getUser().getName());
+
+        return commentDto;
     }
 }

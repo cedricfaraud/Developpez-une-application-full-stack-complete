@@ -1,33 +1,20 @@
 .topic-card {
-  height: 220px;
-  width: 45vw;
-  max-width: 500px;
-  cursor: pointer;
-  margin: 0 15px;
-  box-shadow: none;
-  background-color: transparent;
+  background-color: rgb(245, 245, 245);
+  border-radius: 8px;
+  padding: 5px;
+  margin: auto;
+  width: 30rem;
+  height: auto;
 }
-
-.content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 96%;
-  margin: 0;
-  padding: 0 2%;
-}
-.column {
-  flex: 33.33%;
-}
-
-mat-card-title {
-  font-size: 1.2rem;
-  padding: 2% 0;
+.topic-content {
+  justify-content: left; /*
+  align-content: 15px;
+  padding: 5px;*/
 }
 
 @media (max-width: 768px) {
   .topic-card {
     margin: 0;
-    width: 100vw;
+    width: 100%;
   }
 }

@@ -1,4 +1,4 @@
-.topic-items {
+.post-items {
   width: fit-content;
   padding: 15px;
   display: grid;
@@ -7,10 +7,16 @@
   grid-gap: 25px;
 }
 
+@media (max-width: 1500px) {
+  .post-items {
+    grid-template-columns: auto auto;
+    gap: 15px;
+  }
+}
+
 @media (max-width: 768px) {
-  .topic-items {
+  .post-items {
     grid-template-columns: auto;
     gap: 15px;
-    width: 90%;
   }
 }

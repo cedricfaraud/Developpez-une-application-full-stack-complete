@@ -20,7 +20,7 @@ public class TopicService {
 
     /**
      * 
-     * Retrieves all topics.
+     * Get all topics.
      *
      * @return list of topics
      */
@@ -29,7 +29,7 @@ public class TopicService {
     }
 
     /**
-     * Retrieves a topic by its ID.
+     * Get a topic by ID.
      *
      * @param id ID's topic
      * @return topic with the specified ID

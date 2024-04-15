@@ -69,8 +69,8 @@ public class UserService implements UserDetailsService {
     /**
      * Login user
      * 
-     * @param email
-     * @param password
+     * @param email    user email
+     * @param password user password
      * @return logged user
      */
     public UserDto userLogin(String email, String password) {
@@ -86,7 +86,7 @@ public class UserService implements UserDetailsService {
     /**
      * delete user
      * 
-     * @param id
+     * @param id user id
      */
     public void deleteUser(final Integer id) {
         userRepository.deleteById(id);
@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService {
     /**
      * Save user
      * 
-     * @param userDto
+     * @param userDto user to save
      * @return saved user
      */
     public UserDto saveUser(UserDto userDto) {
@@ -106,7 +106,7 @@ public class UserService implements UserDetailsService {
     /**
      * update user
      * 
-     * @param userDto
+     * @param userDto user to update
      * @return user updated
      */
     public UserDto updateUser(UserDto userDto) {
@@ -143,9 +143,9 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Add Topic to subscription list of authenticated user.
+     * Add autenticated user subscribe to topic
      *
-     * @param topic_id representing the id of the topic to subscribe.
+     * @param topic_id the topic id to subscribe.
      * @throws BadRequestException
      */
     public void subscribeTopic(Integer topic_id) throws BadRequestException {
@@ -168,9 +168,9 @@ public class UserService implements UserDetailsService {
     }
 
     /**
-     * Remove Topic to subscription list of authenticated user.
+     * Remove Topic subscription of authenticated user.
      *
-     * @param topic_id representing the id of the topic to unsubscribe.
+     * @param topic_id the topic id to unsubscribe.
      * @throws BadRequestException
      */
     public void unsubscribeTopic(Integer topic_id) throws BadRequestException {
@@ -194,10 +194,6 @@ public class UserService implements UserDetailsService {
         this.userRepository.save(user);
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities() {
-        return new ArrayList<GrantedAuthority>();
-    }
-
     /**
      * Get authenticated user
      * 
@@ -209,6 +205,10 @@ public class UserService implements UserDetailsService {
         LoginController.logger.trace("Me opération, email : " + email);
         User user = getUserByEmail(email);
         return user;
+    }
+
+    private List<GrantedAuthority> getGrantedAuthorities() {
+        return new ArrayList<GrantedAuthority>();
     }
 
     private User dtoToEntity(UserDto userDto) {

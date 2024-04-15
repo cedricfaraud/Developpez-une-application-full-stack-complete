@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.mddapi.controllers.dto.TopicDto;
 import com.openclassrooms.mddapi.services.TopicService;
-import com.openclassrooms.mddapi.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,13 +29,11 @@ public class TopicController {
     public static final Logger logger = LoggerFactory.getLogger(TopicController.class);
     @Autowired
     private TopicService topicService;
-    @Autowired
-    private UserService userService;
 
     /**
      * Get all Topics
      * 
-     * return All Topics list
+     * @return All Topics list
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get list of topics", description = "Retrieve information of all topics")

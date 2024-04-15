@@ -13,6 +13,4 @@ public class TopicDto {
 
     @NotNull
     private String description;
-
-    // private List<PostDto> posts;
 }

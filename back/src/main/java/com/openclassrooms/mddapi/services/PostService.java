@@ -97,6 +97,13 @@ public class PostService {
         return postEntityToDto(postRepository.save(newPost));
     }
 
+    /**
+     * Create new comment
+     * 
+     * @param id      the id of the post
+     * @param content the comment content
+     * @return created comment
+     */
     public CommentDto createCommentByPostId(Integer id, String content) {
         Comment newComment = new Comment();
         newComment.setContent(content);

@@ -2,7 +2,6 @@ package com.openclassrooms.mddapi.controllers;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,13 +27,11 @@ public class PostController {
 
     @Autowired
     private PostService postService;
-    @Autowired
-    private ModelMapper modelMapper;
 
     /**
      * Get all Posts
      * 
-     * return All Posts list
+     * @return All Posts list
      */
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get list of posts", description = "Retrieve information of all posts")
@@ -45,9 +42,9 @@ public class PostController {
     }
 
     /**
-     * Get all Posts
+     * Get user subscribed Posts
      * 
-     * return All Posts list
+     * @return All subscribed Posts list
      */
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get list of posts by user Subscribtion", description = "Retrieve information of all user's posts subscribed")
@@ -111,7 +108,7 @@ public class PostController {
      * 
      * @param id
      * @param commentRequest
-     * @return
+     * @return Created comment
      */
     @PostMapping("/{id}/comment")
     @Operation(summary = "Add comment", description = "Create new comment for a post")

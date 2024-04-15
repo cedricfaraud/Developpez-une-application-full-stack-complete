@@ -57,7 +57,7 @@ public class UserController {
      * Subscribes the authenticated user to a specified topic.
      *
      * @param topic_id The ID of the topic to subscribe to.
-     * @return ResponseEntity The response entity.
+     * @return The topics list.
      */
     @PostMapping("/{id}/subscribe")
     @Operation(summary = "Subscribe to a topic", description = "Subscribes the authenticated user to a specified topic.")
@@ -99,12 +99,10 @@ public class UserController {
      */
     @GetMapping("/subscription")
     @Operation(summary = "Get all user's topics", description = "Retrieve topics subscribed by authenticated user")
-    // public ResponseEntity<TopicsResponse> getUserSubscription() {
     public ResponseEntity<List<TopicDto>> getUserSubscription() {
 
         List<TopicDto> topics = userService.getUserSubscription();
 
-        // return ResponseEntity.ok(new TopicsResponse(topics));
         return ResponseEntity.ok(topics);
     }
 

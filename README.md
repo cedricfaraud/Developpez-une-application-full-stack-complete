@@ -14,6 +14,20 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
+## Back
+
+### Run the app using maven
+
+`mvn spring-boot:run`
+The application will start running at http://localhost:3006.
+
+### Documentation
+
+When the Api is running, the documentation is available at :
+
+HTML format :
+http://localhost:3006/swagger-ui/index.html
+
 ### Where to start
 
 As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.

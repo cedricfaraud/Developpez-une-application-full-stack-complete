@@ -70,6 +70,6 @@ export class ProfileComponent implements OnInit {
   }
   logout() {
     this.sessionService.logOut();
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('');
   }
 }

@@ -21,6 +21,11 @@ const routes: Routes = [
     component: RegisterComponent,
   },
   {
+    path: 'posts',
+    canActivate: [AuthGuard],
+    component: PostsComponent,
+  },
+  {
     path: 'profile',
     canActivate: [AuthGuard],
     component: ProfileComponent,
@@ -29,11 +34,6 @@ const routes: Routes = [
     path: 'topics',
     canActivate: [AuthGuard],
     component: TopicsComponent,
-  },
-  {
-    path: 'posts',
-    canActivate: [AuthGuard],
-    component: PostsComponent,
   },
 
   {

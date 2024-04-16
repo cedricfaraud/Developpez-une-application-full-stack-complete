@@ -9,7 +9,6 @@ import { Post } from 'src/app/interfaces/post.interface';
 })
 export class PostComponent {
   @Input() post!: Post;
-  // public posts!: Post[];
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 

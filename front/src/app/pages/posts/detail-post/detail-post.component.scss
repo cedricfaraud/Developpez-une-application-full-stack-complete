@@ -11,6 +11,30 @@
   width: 800px;
   margin-left: 50px;
 }
+.post-content {
+  margin: 20px 60px 0px 60px;
+  display: flex;
+  flex-direction: column;
+  p {
+    margin-bottom: 15px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+  }
+}
+.comment-title {
+  display: flex;
+  align-items: center;
+  width: 800px;
+  margin-left: 120px;
+}
+
+.inline {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  justify-content: space-around;
+  margin: auto;
+}
 .detail-post-subtitle {
   flex: 1;
   display: flex;
@@ -25,14 +49,50 @@
 }
 .send-icon {
   mat-icon {
-    // font-size: 40px;
-    // transform: rotate(-45deg);
+    transform: rotate(-45deg);
     color: #7451eb;
   }
+}
+.comment {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 96%;
+  margin: 0;
+  padding: 0 2%;
+  background-color: rgb(245, 245, 245);
+  border-radius: 5px;
+  min-height: 50px;
+}
+.comment-container {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  margin-left: 100px;
+  margin-bottom: 15px;
+  grid-gap: 25px;
+}
+.new-comment-content {
+  border-radius: 8px;
+  width: 900px;
+  background-color: none;
+}
+.form-container {
+  margin-left: 150px;
+  margin-top: 45px;
 }
 @media (max-width: 768px) {
   .post-card {
     margin: auto;
     width: 90%;
+  }
+
+  .comment-container {
+    margin-left: 30px;
+  }
+  .new-comment-content {
+    width: 80%;
+  }
+  .form-container {
+    margin-left: 50px;
   }
 }

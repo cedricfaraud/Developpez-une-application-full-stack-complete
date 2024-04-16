@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     this.authService.me().subscribe(
       (user: User) => {
         this.sessionService.logIn(user);
-        this.router.navigate(['profile']);
+        this.router.navigate(['posts']);
       },
       (_) => {
         this.sessionService.logOut();

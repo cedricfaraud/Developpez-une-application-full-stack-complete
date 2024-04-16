@@ -22,29 +22,31 @@
       <b>{{ post.topic.title | titlecase }}</b>
     </div>
   </mat-card-subtitle>
-  <mat-card-content>
+  <mat-card-content class="post-content">
     <br />
     <p>Contenu: {{ post.content }}</p>
   </mat-card-content>
-  <mat-divider></mat-divider>
   <mat-card-footer>
     <div>
-      <h2>Commentaires</h2>
+      <h2 class="comment-title">Commentaires</h2>
 
-      <div *ngFor="let comment of post.comments">
-        <div>{{ comment.userName | titlecase }}</div>
-        <div>
-          <div>
-            {{ comment.content }}
-          </div>
-          <div>
-            <mat-divider></mat-divider>
-          </div>
+      <div
+        class="center inline comment-container"
+        *ngFor="let comment of post.comments"
+      >
+        <div class="username">{{ comment.userName | titlecase }}</div>
+        <div class="comment">
+          {{ comment.content }}
         </div>
       </div>
       <form class="form-container" [formGroup]="addCommentForm">
-        <mat-form-field appearance="outline">
-          <textarea matInput rows="8" placeholder="" formControlName="content">
+        <mat-form-field class="new-comment-content" fxFlex appearance="outline">
+          <textarea
+            matInput
+            rows="8"
+            placeholder="Ecrivez ici votre commentaire"
+            formControlName="content"
+          >
           </textarea>
         </mat-form-field>
         <button

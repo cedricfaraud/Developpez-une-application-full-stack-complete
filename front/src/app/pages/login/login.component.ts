@@ -35,9 +35,9 @@ export class LoginComponent {
         localStorage.setItem('token', response.token); //Todo : coder le logout  et l'id auto si bearer présent
         this.authService.me().subscribe((user: User) => {
           this.sessionService.logIn(user);
-          this.router.navigate(['profile']);
+          this.router.navigate(['posts']);
         });
-        this.router.navigate(['profile']);
+        this.router.navigate(['posts']);
       },
       (error) => (this.onError = true)
     );

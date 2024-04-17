@@ -6,7 +6,12 @@
   margin: auto;
   grid-gap: 25px;
 }
-
+@media (max-width: 1500px) {
+  .topic-items {
+    grid-template-columns: auto auto;
+    gap: 15px;
+  }
+}
 @media (max-width: 768px) {
   .topic-items {
     grid-template-columns: auto;

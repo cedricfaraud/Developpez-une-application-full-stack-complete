@@ -3,8 +3,6 @@ package com.openclassrooms.mddapi.controllers;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,12 +19,13 @@ import com.openclassrooms.mddapi.services.TopicService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/topics")
 @Tag(name = "Topic")
+@Slf4j
 public class TopicController {
-    public static final Logger logger = LoggerFactory.getLogger(TopicController.class);
     @Autowired
     private TopicService topicService;
 
@@ -38,9 +37,8 @@ public class TopicController {
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get list of topics", description = "Retrieve information of all topics")
     public ResponseEntity<List<TopicDto>> getTopics() {
-
-        List<TopicDto> topics = topicService.getAllTopics();
-        return ResponseEntity.ok(topics);
+        log.debug("Get all Topics");
+        return ResponseEntity.ok(topicService.getAllTopics());
     }
 
     /**
@@ -54,9 +52,8 @@ public class TopicController {
     @Operation(summary = "Create a new topic", description = "Create a new topic for the authenticated user.")
     public ResponseEntity<TopicDto> createTopic(@RequestBody TopicDto topicRequest) {
         try {
-
-            TopicDto topic = topicService.saveTopic(topicRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(topic);
+            log.debug("Topic request : " + topicRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body(topicService.saveTopic(topicRequest));
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -72,8 +69,8 @@ public class TopicController {
     @Operation(summary = "Get topic by id", description = "Retrieve informations about topic specified by his id")
     public ResponseEntity<TopicDto> getTopicById(@PathVariable Integer id) {
         try {
-            TopicDto topic = topicService.getTopicById(id);
-            return new ResponseEntity<TopicDto>(topic, HttpStatus.OK);
+            log.debug("Topic id : " + id);
+            return new ResponseEntity<TopicDto>(topicService.getTopicById(id), HttpStatus.OK);
         } catch (NoSuchElementException e) {
             return new ResponseEntity<TopicDto>(HttpStatus.NOT_FOUND);
         }

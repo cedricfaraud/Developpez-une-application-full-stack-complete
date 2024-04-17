@@ -46,7 +46,7 @@ export class DetailPostComponent {
       });
   }
 
-  public onSubmitComment() {
+  public onSubmitComment(): void {
     const commentRequest = this.addCommentForm
       .value as unknown as CommentRequest;
     this.postService.addPostComment(this.postId, commentRequest).subscribe({

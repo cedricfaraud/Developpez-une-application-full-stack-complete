@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -21,7 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.openclassrooms.mddapi.controllers.LoginController;
 import com.openclassrooms.mddapi.controllers.dto.TopicDto;
 import com.openclassrooms.mddapi.controllers.dto.UserDto;
 import com.openclassrooms.mddapi.model.Topic;
@@ -30,11 +27,12 @@ import com.openclassrooms.mddapi.repository.TopicRepository;
 import com.openclassrooms.mddapi.repository.UserRepository;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Service
+@Slf4j
 public class UserService implements UserDetailsService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -51,6 +49,7 @@ public class UserService implements UserDetailsService {
      * @return user found
      */
     public User getUser(final Integer id) {
+        log.debug("user id :" + id);
         return userRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Bad id : " + id));
     }
@@ -75,7 +74,7 @@ public class UserService implements UserDetailsService {
      */
     public UserDto userLogin(String email, String password) {
         User userByEmail = getUserByEmail(email);
-        logger.info("Login user found : " + userByEmail);
+        log.info("Login user found : " + userByEmail);
         if (!bcryptEncoder.matches(password, userByEmail.getPassword())) {
             throw new BadCredentialsException("Bad password");
         }
@@ -99,8 +98,7 @@ public class UserService implements UserDetailsService {
      * @return saved user
      */
     public UserDto saveUser(UserDto userDto) {
-        User savedUser = userRepository.save(dtoToEntity(userDto));
-        return entityToDto(savedUser);
+        return entityToDto(userRepository.save(dtoToEntity(userDto)));
     }
 
     /**
@@ -120,8 +118,7 @@ public class UserService implements UserDetailsService {
         if (isNotNullOrEmpty(userDto.getName())) {
             user.setName(userDto.getName());
         }
-        User updatedUser = userRepository.save(user);
-        return entityToDto(updatedUser);
+        return entityToDto(userRepository.save(user));
     }
 
     /**
@@ -131,8 +128,7 @@ public class UserService implements UserDetailsService {
      */
     public List<TopicDto> getUserSubscription() {
         User user = getUser();
-        List<Topic> subscriptions = user.getTopics();
-        return entityToDtoList(subscriptions);
+        return entityToDtoList(user.getTopics());
     }
 
     @Override
@@ -202,9 +198,8 @@ public class UserService implements UserDetailsService {
     public User getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        LoginController.logger.trace("Me opération, email : " + email);
-        User user = getUserByEmail(email);
-        return user;
+        log.trace("Me opération, email : " + email);
+        return getUserByEmail(email);
     }
 
     private List<GrantedAuthority> getGrantedAuthorities() {

@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.authService.me().subscribe((user: User) => (this.user = user));
   }
-  public back() {
+  public back(): void {
     window.history.back();
   }
 
@@ -68,7 +68,7 @@ export class ProfileComponent implements OnInit {
       (error) => (this.onError = true)
     );
   }
-  logout() {
+  logout(): void {
     this.sessionService.logOut();
     this.router.navigateByUrl('');
   }

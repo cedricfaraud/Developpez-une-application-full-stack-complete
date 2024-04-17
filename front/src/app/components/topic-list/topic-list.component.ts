@@ -35,7 +35,7 @@ export class TopicListComponent implements OnInit, OnDestroy {
       this.subscribeTopicSub.unsubscribe();
     }
   }
-  public getTopics() {
+  public getTopics(): void {
     if (this.fromProfilePage) {
       // get topics for user subscription when on profile page
       this.topics$ = this.userService.getUserSubscription();
@@ -49,7 +49,7 @@ export class TopicListComponent implements OnInit, OnDestroy {
    * Handle event when unsubscribe action is performed.
    * @param topic_id  to unsubscribe.
    */
-  public onUnsubscribeTopic(topic_id: string) {
+  public onUnsubscribeTopic(topic_id: string): void {
     this.unsubscribeTopicSub = this.userService
       .unsubscribeTopic(topic_id)
       .subscribe((_) => this.getTopics());
@@ -59,7 +59,7 @@ export class TopicListComponent implements OnInit, OnDestroy {
    * Handle event when subscribe action is performed.
    * @param topic_id  to subscribe.
    */
-  public onSubscribeTopic(topic_id: string) {
+  public onSubscribeTopic(topic_id: string): void {
     this.subscribeTopicSub = this.userService
       .subscribeTopic(topic_id)
       .subscribe((_) => this.getTopics());

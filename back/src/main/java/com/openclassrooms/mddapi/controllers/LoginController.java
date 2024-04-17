@@ -2,8 +2,6 @@ package com.openclassrooms.mddapi.controllers;
 
 import java.util.NoSuchElementException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,13 +25,13 @@ import com.openclassrooms.mddapi.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Login")
+@Slf4j
 public class LoginController {
-
-    public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private JWTService jwtService;
     @Autowired
@@ -50,7 +48,7 @@ public class LoginController {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Authentication", description = "Authentication with email and password, return JWT")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginDto loginDto) {
-        logger.trace("Login user : " + loginDto);
+        log.trace("Login user : " + loginDto);
         try {
             UserDto user = userService.userLogin(loginDto.getEmail(), loginDto.getPassword());
             return ResponseEntity.status(HttpStatus.ACCEPTED)
@@ -69,15 +67,15 @@ public class LoginController {
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Registration", description = "Register new user with email, username and password, return JWT")
     public ResponseEntity<LoginResponse> register(@RequestBody UserDto userDto) {
-        logger.trace("Create user : " + userDto);
+        log.trace("Create user : " + userDto);
         try {
             userService.getUserByEmail(userDto.getEmail());
-            logger.error("Create user error, user already exist : " + userDto);
+            log.error("Create user error, user already exist : " + userDto);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (NoSuchElementException e) {
             userDto.setPassword(bcryptEncoder.encode(userDto.getPassword()));
             UserDto createdUser = userService.saveUser(userDto);
-            logger.trace("createdUser : " + createdUser);
+            log.trace("createdUser : " + createdUser);
             String token = null;
             if (createdUser != null) {
                 token = jwtService.generateToken(createdUser.getEmail());
@@ -95,7 +93,7 @@ public class LoginController {
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Update", description = "Update user with email, username and password, return JWT")
     public ResponseEntity<LoginResponse> updateUser(@RequestBody UserDto userDto) {
-        logger.trace("Update user : " + userDto);
+        log.trace("Update user : " + userDto);
         String token = null;
         try {
             if (isNotNullOrEmpty(userDto.getPassword()) || isNotNullOrEmpty(userDto.getEmail())
@@ -104,16 +102,16 @@ public class LoginController {
                 UserDto updatedUser = userService.updateUser(userDto);
                 if (updatedUser != null) {
 
-                    logger.trace("updatedUser : " + updatedUser);
+                    log.trace("updatedUser : " + updatedUser);
                     token = jwtService.generateToken(updatedUser.getEmail());
                 }
                 return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse(token));
             } else {
-                logger.error("update user error : " + userDto);
+                log.error("update user error : " + userDto);
                 return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
             }
         } catch (NoSuchElementException e) {
-            logger.error("update user error : " + userDto);
+            log.error("update user error : " + userDto);
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
     }

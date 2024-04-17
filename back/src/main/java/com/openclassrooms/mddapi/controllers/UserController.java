@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.apache.coyote.BadRequestException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,12 +23,13 @@ import com.openclassrooms.mddapi.services.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/user")
 @Tag(name = "User")
+@Slf4j
 public class UserController {
-    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
     @Autowired
@@ -63,9 +62,9 @@ public class UserController {
     @Operation(summary = "Subscribe to a topic", description = "Subscribes the authenticated user to a specified topic.")
     public ResponseEntity<TopicsResponse> subscribe(@PathVariable("id") Integer topic_id) {
         try {
+            log.debug("Topic id to subscribe : " + topic_id);
             userService.subscribeTopic(topic_id);
-            List<TopicDto> topics = topicService.getAllTopics();
-            return ResponseEntity.ok(new TopicsResponse(topics));
+            return ResponseEntity.ok(new TopicsResponse(topicService.getAllTopics()));
 
         } catch (BadRequestException e) {
             return ResponseEntity.badRequest().build();

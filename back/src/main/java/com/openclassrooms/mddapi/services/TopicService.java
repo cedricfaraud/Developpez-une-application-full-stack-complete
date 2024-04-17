@@ -45,8 +45,7 @@ public class TopicService {
      * @return new topic added
      */
     public TopicDto saveTopic(TopicDto topicDto) {
-        Topic savedTopic = topicRepository.save(dtoToEntity(topicDto));
-        return entityToDto(savedTopic);
+        return entityToDto(topicRepository.save(dtoToEntity(topicDto)));
     }
 
     private Topic dtoToEntity(TopicDto topicDto) {

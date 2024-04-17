@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.controllers.dto.CommentDto;
 import com.openclassrooms.mddapi.controllers.dto.PostDto;
 import com.openclassrooms.mddapi.controllers.requests.CommentRequest;
-import com.openclassrooms.mddapi.controllers.responses.ResponseMessage;
 import com.openclassrooms.mddapi.services.PostService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,9 +35,7 @@ public class PostController {
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get list of posts", description = "Retrieve information of all posts")
     public ResponseEntity<List<PostDto>> getPosts() {
-
-        List<PostDto> posts = postService.getAllPosts();
-        return ResponseEntity.ok(posts);
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     /**
@@ -65,9 +62,7 @@ public class PostController {
     @Operation(summary = "Create post", description = "Create new Post")
     public ResponseEntity<PostDto> createPost(@RequestBody PostDto postRequest) {
         try {
-            PostDto post = postService.createPost(postRequest);
-            ResponseMessage response = new ResponseMessage("Post created!");
-            return ResponseEntity.status(HttpStatus.CREATED).body(post);
+            return ResponseEntity.status(HttpStatus.CREATED).body(postService.createPost(postRequest));
         } catch (Exception e) {
             return new ResponseEntity<PostDto>(HttpStatus.BAD_REQUEST);
         }
@@ -82,10 +77,7 @@ public class PostController {
     @GetMapping("/{id}")
     @Operation(summary = "Get post by id", description = "Retrieve information of specified post by id")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") Integer id) {
-
-        PostDto post = postService.getPostById(id);
-
-        return ResponseEntity.ok(post);
+        return ResponseEntity.ok(postService.getPostById(id));
     }
 
     /**
@@ -97,10 +89,7 @@ public class PostController {
     @GetMapping("/{id}/comments")
     @Operation(summary = "Get post by id", description = "Retrieve information of specified post by id")
     public ResponseEntity<List<CommentDto>> getCommentsByPostId(@PathVariable("id") Integer id) {
-
-        List<CommentDto> comments = postService.getCommentsByPostId(id);
-
-        return ResponseEntity.ok(comments);
+        return ResponseEntity.ok(postService.getCommentsByPostId(id));
     }
 
     /**

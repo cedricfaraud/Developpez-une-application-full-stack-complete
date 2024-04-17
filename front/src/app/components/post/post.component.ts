@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/interfaces/post.interface';
 
 @Component({
@@ -10,7 +10,7 @@ import { Post } from 'src/app/interfaces/post.interface';
 export class PostComponent {
   @Input() post!: Post;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router) {}
 
   public showDetail(id: number): void {
     this.router.navigateByUrl('/detail-post/' + id);

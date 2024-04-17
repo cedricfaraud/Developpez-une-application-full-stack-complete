@@ -13,6 +13,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @SuppressWarnings("null")
     List<Post> findAll(Sort sortByDateDesc);
 
-    List<Post> findByTopicIn(List<Topic> topics);
+    List<Post> findByTopicInOrderByCreatedAtDesc(List<Topic> topics);
 
 }

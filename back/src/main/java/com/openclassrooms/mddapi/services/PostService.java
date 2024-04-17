@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.mddapi.controllers.dto.CommentDto;
@@ -40,7 +41,7 @@ public class PostService {
      * @return list of posts
      */
     public List<PostDto> getAllPosts() {
-        return postEntityToDtoList(postRepository.findAll());
+        return postEntityToDtoList(postRepository.findAll(Sort.by(Sort.Direction.DESC, "created_at")));
     }
 
     /**
@@ -54,7 +55,7 @@ public class PostService {
         if (topics.isEmpty()) {
             return Collections.emptyList();
         }
-        return postEntityToDtoList(postRepository.findByTopicIn(topicDtoToEntityList(topics)));
+        return postEntityToDtoList(postRepository.findByTopicInOrderByCreatedAtDesc(topicDtoToEntityList(topics)));
     }
 
     /**

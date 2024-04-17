@@ -80,6 +80,12 @@
   margin-left: 150px;
   margin-top: 45px;
 }
+
+@media (max-width: 1500px) {
+  .new-comment-content {
+    width: 80%;
+  }
+}
 @media (max-width: 768px) {
   .post-card {
     margin: auto;
